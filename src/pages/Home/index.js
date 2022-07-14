@@ -1,9 +1,12 @@
 import React from "react";
 
+import { Title } from "./styles";
+
 export default function Home() {
   return (
-    <div>
-      <h1>Api Repositório - HOME</h1>
-    </div>
+    <Title>
+      Home
+      <span> Api Repositório</span>
+    </Title>
   );
 }
