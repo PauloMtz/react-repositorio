@@ -1,9 +1,11 @@
 import React from "react";
 
-export default function Repositorio() {
+export default function Repositorio({match}) {
   return (
     <div>
-      <h1>Api Repositório - REPOSITÓRIO</h1>
+      <h1 style={{color: "#FFF"}}>
+        Repositório {decodeURIComponent(match.params.repositorioParam)}
+      </h1>
     </div>
   );
 }

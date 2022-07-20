@@ -1,4 +1,5 @@
 import React, { useState, useCallback , useEffect} from "react";
+import { Link } from "react-router-dom";
 
 import { FaGithub, FaPlus, FaSpinner, FaBars, FaTrash } from 'react-icons/fa'; // npm install react-icons
 import {Container, Form, SubmitButton, List, DeleteButton } from './styles';
@@ -134,9 +135,9 @@ export default function Home() {
              </DeleteButton>  
              {repo.name}
              </span>
-             <a href="">
+             <Link to={`/repositorio/${encodeURIComponent(repo.name)}`}>
                <FaBars size={20}/>
-             </a>
+             </Link>
            </li>
          ))} 
       </List>
