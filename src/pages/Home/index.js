@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback , useEffect} from "react";
 
 import { FaGithub, FaPlus, FaSpinner, FaBars, FaTrash } from 'react-icons/fa'; // npm install react-icons
 import {Container, Form, SubmitButton, List, DeleteButton } from './styles';
@@ -10,6 +10,20 @@ export default function Home() {
   const [repositorios, setRepositorios] = useState([]); // inicia com um array vazio
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
+
+  // DidMount - Buscar
+  useEffect(() => {
+    const repoStorage = localStorage.getItem('_repositorios');
+
+    if (repoStorage) {
+      setRepositorios(JSON.parse(repoStorage));
+    }
+  }, []);
+
+  // DidUpdate - Salvar
+  useEffect(() => {
+    localStorage.setItem('_repositorios', JSON.stringify(repositorios));
+  }, [repositorios]);
 
   function handleInputChange(evento) {
     setNewRepositorio(evento.target.value);
