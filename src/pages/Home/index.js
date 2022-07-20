@@ -9,10 +9,12 @@ export default function Home() {
   const [newRepositorio, setNewRepositorio] = useState('');
   const [repositorios, setRepositorios] = useState([]); // inicia com um array vazio
   const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState(null);
 
   function handleInputChange(evento) {
     setNewRepositorio(evento.target.value);
     //console.log(evento.target.value);
+    setAlert(null);
   }
 
   // poderia ser essa função abaixo
@@ -41,10 +43,24 @@ export default function Home() {
     async function submit() {
       // clicou no submit, habilita o loading
       setLoading(true);
+      setAlert(null);
 
       try {
+
+        // mostra mensagem no console por causa do catch
+        if (newRepositorio === '') {
+          throw new Error('Precisa indicar o repositório.');
+        }
+
         // https://api.github.com/repos/facebook/react
         const response = await api.get(`/repos/${newRepositorio}`);
+
+        // verifica se já tem o repositório na lista
+        const hasRepositorio = repositorios.find(repo => repo.name === newRepositorio);
+
+        if (hasRepositorio) {
+          throw new Error('Esse repositório já está na lista.');
+        }
 
         const dados = {
           name: response.data.full_name,
@@ -54,6 +70,7 @@ export default function Home() {
         setNewRepositorio('');
         console.log(dados);
       } catch (erro) {
+        setAlert(true);
         console.log(erro);
       } finally {
         // terminou tudo, volta o loading para falso
@@ -77,7 +94,7 @@ export default function Home() {
         Meus Repositorios
       </h1>
 
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} erroProp={alert}>
         <input 
           type="text" 
           placeholder="Adicionar Repositorio"
