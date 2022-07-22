@@ -41,7 +41,7 @@ export default function Home() {
     // https://api.github.com/repos/facebook/react
     const response = await api.get(`/repos/${newRepositorio}`);
 
-    //console.log(response.data);
+    console.log(response.data);
 
     const dados = {
       name: response.data.full_name,
@@ -78,7 +78,7 @@ export default function Home() {
         }
 
         const dados = {
-          name: response.data.full_name,
+          name: response.data.full_name
         }
 
         setRepositorios([...repositorios, dados]);
