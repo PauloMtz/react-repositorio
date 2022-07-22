@@ -15,8 +15,8 @@ export default function Repositorio({match}) {
       const nomeRepositorio = decodeURIComponent(match.params.repositorioParam);
 
       const [repositorioData, issueData] = await Promise.all([
-        api.get(`/repositorio/${nomeRepositorio}`),
-        api.get(`/repositorio/${nomeRepositorio}/issues`, {
+        api.get(`/repos/${nomeRepositorio}`),
+        api.get(`/repos/${nomeRepositorio}/issues`, {
           params: {
             state: 'open',
             per_page: 5
@@ -28,7 +28,7 @@ export default function Repositorio({match}) {
       setIssues(issueData.data);
       setLoading(false);
 
-      //console.log(repositorioData.data);
+      console.log(repositorioData);
       //console.log(issueData.data);
 
     }

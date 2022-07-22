@@ -83,7 +83,7 @@ export default function Home() {
 
         setRepositorios([...repositorios, dados]);
         setNewRepositorio('');
-        console.log(dados);
+        //console.log(dados);
       } catch (erro) {
         setAlert(true);
         console.log(erro);
