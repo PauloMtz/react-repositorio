@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
+import { FaArrowLeft } from 'react-icons/fa';
 
-import {Container} from './styles';
+import {Container, Owner, Loading, BackButton, IssuesList} from './styles';
 import api from '../../services/api';
 
 export default function Repositorio({match}) {
@@ -14,6 +15,7 @@ export default function Repositorio({match}) {
     async function load() {
       const nomeRepositorio = decodeURIComponent(match.params.repositorioParam);
 
+      // https://api.github.com/repos/facebook/react
       const [repositorioData, issueData] = await Promise.all([
         api.get(`/repos/${nomeRepositorio}`),
         api.get(`/repos/${nomeRepositorio}/issues`, {
@@ -37,11 +39,45 @@ export default function Repositorio({match}) {
 
   }, [match.params.repositorioParam]);
 
+  if (loading) {
+    return(
+      <Loading>
+        <h1>Carregando...</h1>
+      </Loading>
+    )
+  }
+
   return(
     <Container>
-      <h1 style={{color: "#FFF"}}>
-        Repositório {decodeURIComponent(match.params.repositorioParam)}
-      </h1>
+        <BackButton to="/">
+          <FaArrowLeft color="#000" size={30} />
+        </BackButton>
+
+        <Owner>
+          <img 
+            src={repositorio.owner.avatar_url} 
+            alt={repositorio.owner.login} 
+          />
+          <h1>{repositorio.name}</h1>
+          <p>{repositorio.description}</p>
+        </Owner>
+
+        <IssuesList>
+          {issues.map(issue => (
+            <li key={String(issue.id)}>
+              <img src={issue.user.avatar_url} alt={issue.user.login} />
+              <div>
+                <strong>
+                  <a href={issue.html_url}>{issue.title}</a>
+                  {issue.labels.map(label => (
+                    <span key={String(label.id)}>{label.name}</span>
+                  ))}
+                </strong>
+                <p>{issue.user.login}</p>
+              </div>
+            </li>
+          ))}
+        </IssuesList>
     </Container>
   )
 }
